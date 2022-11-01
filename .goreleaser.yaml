@@ -1,0 +1,15 @@
+project_name: jsync
+builds:
+  - id: jsync
+    binary: jsync
+    ldflags:
+      - "-s -w -X github.com/alanwgt/jsync/cmd/jsync.version={{ .Version }}"
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64

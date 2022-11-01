@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS properties;
+DROP TABLE IF EXISTS condominiums;
+DROP TABLE IF EXISTS brokers;
+DROP TABLE IF EXISTS banners;
