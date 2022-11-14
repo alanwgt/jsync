@@ -33,7 +33,11 @@ Baixe o executável para sua plataforma [na página de *releases*](https://githu
 ao `PATH`.
 
 ```bash
-curl -L -o jsync https://github.com/alanwgt/jsync/releases/latest/download/jsync.[OS]-[ARCH].tar.gz
+# baixar o executável
+curl -L -o jsync.tar.gz https://github.com/alanwgt/jsync/releases/latest/download/jsync_[version]_[OS]_[ARCH].tar.gz
+# descompactar
+tar -xvf jsync.tar.gz
+# mover para uma pasta do PATH para poder ser acessado globalmente
 sudo mv jsync /usr/local/bin
 ```
 
@@ -179,3 +183,6 @@ E, finalmente, execute as migrações:
 1. Assegure-se que o `go` está [instalado](https://go.dev/dl/) e incluso no [`PATH` global](https://go.dev/doc/install)
 2. Instale as dependências: `go mod download`
 3. Execute o programa com `go run main.go [params]` ou crie um executável: `go build -o jsync main.go`
+
+jsync sincroniza dados na Jetimob com um banco d
+sincronizador de dados jetimob p sites exclusivos
