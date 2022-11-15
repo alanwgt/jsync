@@ -38,19 +38,22 @@ type Model interface {
 }
 
 type Media struct {
-	Url   string      `json:"link"`
-	Title null.String `json:"titulo"`
+	Url          string      `json:"link"`
+	ThumbnailUrl string      `json:"link_thumb"`
+	Title        null.String `json:"titulo"`
 }
 
 type MappedMedia struct {
-	Url   string      `json:"url"`
-	Title null.String `json:"title"`
+	Url          string      `json:"url"`
+	ThumbnailUrl string      `json:"thumbnail_url"`
+	Title        null.String `json:"title"`
 }
 
 func (m Media) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&MappedMedia{
-		Url:   m.Url,
-		Title: m.Title,
+		Url:          m.Url,
+		Title:        m.Title,
+		ThumbnailUrl: m.ThumbnailUrl,
 	})
 }
 
