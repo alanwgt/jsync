@@ -32,3 +32,4 @@ var verbose bool
 // sync
 var ignoreLastSync bool
 var tenantId string
+var maxPages int

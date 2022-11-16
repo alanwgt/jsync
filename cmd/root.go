@@ -152,6 +152,7 @@ func initConfig() {
 	cfg.CmdCfg = config.CmdCfg{
 		TenantId:       tenantId,
 		IgnoreLastSync: ignoreLastSync,
+		MaxPages:       maxPages,
 	}
 
 	var lvl zerolog.Level

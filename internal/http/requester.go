@@ -54,6 +54,7 @@ type ActivePropertiesResponse model.PaginatedResponse[ActivePropertiesData]
 type Requester struct {
 	webserviceKey string
 	client        *http.Client
+	maxPages      int
 }
 
 type requestData struct {
@@ -63,10 +64,10 @@ type requestData struct {
 	page      int
 }
 
-func NewRequester(webserviceKey string) *Requester {
+func NewRequester(maxPages int) *Requester {
 	return &Requester{
-		webserviceKey: webserviceKey,
-		client:        &http.Client{Timeout: 10 * time.Second},
+		client:   &http.Client{Timeout: 10 * time.Second},
+		maxPages: maxPages,
 	}
 }
 
@@ -154,14 +155,20 @@ func getAllPaginated[T any](r *Requester, path RoutePath, startDate *time.Time) 
 		return nil, err
 	}
 
+	var maxPages int
+	if response.MaxPages() < r.maxPages {
+		maxPages = response.MaxPages()
+	} else {
+		maxPages = r.maxPages
+	}
+
 	// a jetimob manda a quantia de itens mesmo quando a resposta for vazia
-	if response.MaxPages() == 1 || len(response.Data) < response.PageSize {
+	if maxPages == 1 || len(response.Data) < response.PageSize {
 		return response.Data, nil
 	}
 
 	log.Debug().Int("concurrent_request", MaxConcurrentRequests).Str("path", string(path)).Msg("iniciando requisições em paralelo")
 
-	maxPages := response.MaxPages()
 	items := response.Data
 	wg := &sync.WaitGroup{}
 	req := make(chan requestData)

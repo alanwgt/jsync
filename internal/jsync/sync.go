@@ -59,7 +59,7 @@ func New(cfg *config.JetimobCfg, version string) (*JSync, error) {
 
 	return &JSync{
 		config:      cfg,
-		requester:   http.NewRequester(""),
+		requester:   http.NewRequester(cfg.CmdCfg.MaxPages),
 		db:          d,
 		multiTenant: len(cfg.TenantMapping) > 0,
 		L:           log.Log.With().Str("version", version).Logger(),

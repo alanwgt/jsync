@@ -28,6 +28,7 @@ package cmd
 import (
 	"errors"
 	"github.com/spf13/cobra"
+	"math"
 )
 
 // syncCmd represents the sync command
@@ -70,5 +71,6 @@ Remova a opção "truncate", ou utilize a flag --ignore-last-sync para buscar to
 func init() {
 	rootCmd.AddCommand(syncCmd)
 
+	syncCmd.PersistentFlags().IntVarP(&maxPages, "max-pages", "m", math.MaxInt, "número máximo de páginas requisitadas por recurso (útil para testes)")
 	syncCmd.PersistentFlags().BoolVarP(&ignoreLastSync, "ignore-last-sync", "i", false, "ignora a data da última sincronização, forçando a atualização de todos os dados")
 }
