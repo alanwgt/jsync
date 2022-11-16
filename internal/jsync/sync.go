@@ -213,7 +213,7 @@ func sync[T model.Model](tx *sql.Tx, j JSync, values []T, colMap map[string]any,
 		}
 
 		q, _, err := exp.
-			Where(goqu.C(values[0].IdentityColumn()).In(pks)).
+			Where(goqu.C("id").In(pks)).
 			ToSQL()
 		if err != nil {
 			return err
@@ -275,7 +275,7 @@ func (j JSync) MarkPropertiesAsActive(tx *sql.Tx, ids []int) error {
 
 	q, _, err = exp.
 		Set(goqu.Record{"active": true}).
-		Where(goqu.C("jetimob_property_id").In(ids)).
+		Where(goqu.C("id").In(ids)).
 		ToSQL()
 	if err != nil {
 		return err

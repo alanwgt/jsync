@@ -1,6 +1,6 @@
-last_sync:
-truncate_all: false
 webservice_key:
+truncate_all: false
+last_sync:
 #tenant_column:
 #tenant_mapping:
 #  - identifier:
@@ -8,12 +8,13 @@ webservice_key:
 
 db:
   connection_string: postgres://[usuário]:[senha]@[host]:[porta]/[database]?sslmode=disable
+
 mappings:
   banners:
     abrir_em: href_target
     descricao: description
-    id_banner: jetimob_banner_id
-    id_imagem: jetimob_image_id
+    id_banner: id
+    id_imagem: image_id
     imagem: image_url
     is_video: is_video
     link: url
@@ -33,7 +34,7 @@ mappings:
     email: email
     estado: state_abbrev
     facebook: facebook_url
-    id: jetimob_broker_id
+    id: id
     instagram: instagram_url
     linkedin: linkedin_url
     mostrar_site: show_personal_website
@@ -66,11 +67,11 @@ mappings:
     etiquetas: labels
     fechado: gated
     fundacoes: foundation_percentage
-    id_bairro: jetimob_neighborhood_id
-    id_cidade: jetimob_city_id
-    id_condominio: jetimob_condominium_id
-    id_estado: jetimob_state_id
-    id_imagem: jetimob_cover_image_id
+    id_bairro: neighborhood_id
+    id_cidade: city_id
+    id_condominio: id
+    id_estado: state_id
+    id_imagem: cover_image_id
     imagens: images
     incorporadora: real_state_developer_name
     infraestruturas: infrastructures
@@ -136,12 +137,12 @@ mappings:
     financiavel: financeable
     garagens: garages
     geoposicionamento_visivel: geoposition_visibility
-    id_bairro: jetimob_neighborhood_id
-    id_cidade: jetimob_city_id
-    id_condominio: jetimob_condominium_id
-    id_corretor: jetimob_broker_id
-    id_estado: jetimob_state_id
-    id_imovel: jetimob_property_id
+    id_bairro: neighborhood_id
+    id_cidade: city_id
+    id_condominio: condominium_id
+    id_corretor: broker_id
+    id_estado: state_id
+    id_imovel: id
     imagens: images
     imovel_comodidades: property_infrastructures
     latitude: latitude

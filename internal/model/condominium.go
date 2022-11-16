@@ -31,9 +31,9 @@ import (
 )
 
 type Condominium struct {
+	Id                       int                `json:"id_condominio"`
 	Type                     string             `json:"tipo"`
 	JetimobCoverImageId      null.Int           `json:"id_imagem"`
-	JetimobCondominiumId     int                `json:"id_condominio"`
 	Name                     string             `json:"nome"`
 	Featured                 bool               `json:"destaque"`
 	Launch                   bool               `json:"lancamento"`
@@ -81,9 +81,5 @@ type Condominium struct {
 }
 
 func (c Condominium) Identifier() int {
-	return c.JetimobCondominiumId
-}
-
-func (c Condominium) IdentityColumn() string {
-	return "jetimob_condominium_id"
+	return c.Id
 }

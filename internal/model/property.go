@@ -49,13 +49,13 @@ type SeasonCalendar struct {
 }
 
 type Property struct {
+	Id                         int                 `json:"id_imovel"`
 	Type                       string              `json:"tipo"`
-	JetimobPropertyId          int                 `json:"id_imovel"`
-	JetimobCondominiumId       null.Int            `json:"id_condominio"`
-	JetimobBrokerId            int                 `json:"id_corretor"`
-	JetimobStateId             int                 `json:"id_estado"`
-	JetimobCityId              int                 `json:"id_cidade"`
-	JetimobNeighborhoodId      int                 `json:"id_bairro"`
+	CondominiumId              null.Int            `json:"id_condominio"`
+	BrokerId                   int                 `json:"id_corretor"`
+	StateId                    int                 `json:"id_estado"`
+	CityId                     int                 `json:"id_cidade"`
+	NeighborhoodId             int                 `json:"id_bairro"`
 	IdentifierCode             string              `json:"codigo"`
 	Contracts                  json.CommaStrSlice  `json:"contrato"`
 	Subtype                    string              `json:"subtipo"`
@@ -186,9 +186,5 @@ func (sc SeasonCalendarArray) Value() (driver.Value, error) {
 }
 
 func (p Property) Identifier() int {
-	return p.JetimobPropertyId
-}
-
-func (p Property) IdentityColumn() string {
-	return "jetimob_property_id"
+	return p.Id
 }

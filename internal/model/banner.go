@@ -31,22 +31,18 @@ import (
 )
 
 type Banner struct {
-	JetimobBannerId int          `json:"id_banner"`
-	JetimobImageId  int          `json:"id_imagem"`
-	URL             null.String  `json:"link"`
-	Order           int          `json:"ordem"`
-	Title           null.String  `json:"titulo"`
-	Description     null.String  `json:"descricao"`
-	HrefTarget      string       `json:"abrir_em"`
-	IsVideo         json.IntBool `json:"is_video"`
-	VideoUrl        string       `json:"video"`
-	ImageUrl        string       `json:"imagem"`
+	Id          int          `json:"id_banner"`
+	ImageId     int          `json:"id_imagem"`
+	URL         null.String  `json:"link"`
+	Order       int          `json:"ordem"`
+	Title       null.String  `json:"titulo"`
+	Description null.String  `json:"descricao"`
+	HrefTarget  string       `json:"abrir_em"`
+	IsVideo     json.IntBool `json:"is_video"`
+	VideoUrl    string       `json:"video"`
+	ImageUrl    string       `json:"imagem"`
 }
 
 func (b Banner) Identifier() int {
-	return b.JetimobBannerId
-}
-
-func (b Banner) IdentityColumn() string {
-	return "jetimob_banner_id"
+	return b.Id
 }

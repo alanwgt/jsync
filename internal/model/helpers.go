@@ -34,7 +34,6 @@ import (
 
 type Model interface {
 	Identifier() int
-	IdentityColumn() string
 }
 
 type Media struct {

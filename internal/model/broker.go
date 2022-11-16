@@ -31,7 +31,7 @@ import (
 )
 
 type Broker struct {
-	JetimobBrokerId         int           `json:"id"`
+	Id                      int           `json:"id"`
 	Name                    string        `json:"nome"`
 	Creci                   string        `json:"creci"`
 	Avatar                  null.String   `json:"avatar"`
@@ -57,9 +57,5 @@ type Broker struct {
 }
 
 func (b Broker) Identifier() int {
-	return b.JetimobBrokerId
-}
-
-func (b Broker) IdentityColumn() string {
-	return "jetimob_broker_id"
+	return b.Id
 }
