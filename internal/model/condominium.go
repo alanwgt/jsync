@@ -46,8 +46,8 @@ type Condominium struct {
 	LandscapingPercentage    null.Int           `json:"paisagismo"`
 	ProjectPercentage        null.Int           `json:"projetos"`
 	GroundLevelingPercentage null.Int           `json:"terraplanagem"`
-	Latitude                 float32            `json:"latitude"`
-	Longitude                float32            `json:"longitue"`
+	Latitude                 float64            `json:"latitude"`
+	Longitude                float64            `json:"longitude"`
 	Notes                    string             `json:"observacoes"`
 	IncorporationRecord      null.String        `json:"registro_incorporacao"`
 	JetimobNeighborhoodId    int                `json:"id_bairro"`

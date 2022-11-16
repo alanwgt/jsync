@@ -79,7 +79,7 @@ mappings:
     lancamento: launch
     latitude: latitude
     logotipo: cover_image
-    longitue: longitude
+    longitude: longitude
     nome: name
     observacoes: notes
     paisagismo: landscaping_percentage
