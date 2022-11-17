@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS properties
   furnished                   INT            NOT NULL,
   suites                      INT            NOT NULL,
   bathrooms                   INT            NOT NULL,
+  bedrooms                    INT            NOT NULL,
   garages                     INT            NOT NULL,
   financeable                 INT            NOT NULL,
   has_exclusivity             BOOL           NOT NULL,

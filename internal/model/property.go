@@ -66,6 +66,7 @@ type Property struct {
 	Furnished                  int                 `json:"mobiliado"`
 	Suites                     int                 `json:"suites"`
 	Bathrooms                  int                 `json:"banheiros"`
+	Bedrooms                   int                 `json:"dormitorios"`
 	Garages                    int                 `json:"garagens"`
 	Financeable                int                 `json:"financiavel"`
 	HasExclusivity             bool                `json:"exclusividade"`

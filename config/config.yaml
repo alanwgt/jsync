@@ -104,6 +104,7 @@ mappings:
     area_util: useful_area
     atividade_rural: rural_activities
     banheiros: bathrooms
+    dormitorios: bedrooms
     calendario_temporada: season_calendar
     codigo: identifier_code
     condominio_comodidades: condominium_infrastructures
