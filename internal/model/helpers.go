@@ -67,8 +67,8 @@ func (ma MediaArray) Value() (driver.Value, error) {
 }
 
 type Video struct {
-	Url   string      `json:"href"`
-	Title null.String `json:"title"`
+	Url   string      `json:"link"`
+	Title null.String `json:"titulo"`
 }
 
 type MappedVideo struct {
