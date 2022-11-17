@@ -39,8 +39,6 @@ import (
 	"time"
 )
 
-const MaxConcurrentRequests = 3
-
 type PropertiesResponse model.PaginatedResponse[[]model.Property]
 type BrokersResponse model.PaginatedResponse[[]model.Broker]
 type CondominiumsResponse model.PaginatedResponse[[]model.Condominium]
@@ -52,9 +50,10 @@ type ActivePropertiesData struct {
 type ActivePropertiesResponse model.PaginatedResponse[ActivePropertiesData]
 
 type Requester struct {
-	webserviceKey string
-	client        *http.Client
-	maxPages      int
+	webserviceKey      string
+	client             *http.Client
+	maxPages           int
+	concurrentRequests int
 }
 
 type requestData struct {
@@ -64,10 +63,11 @@ type requestData struct {
 	page      int
 }
 
-func NewRequester(maxPages int) *Requester {
+func NewRequester(maxPages int, concurrentRequest int) *Requester {
 	return &Requester{
-		client:   &http.Client{Timeout: 10 * time.Second},
-		maxPages: maxPages,
+		client:             &http.Client{Timeout: 10 * time.Second},
+		maxPages:           maxPages,
+		concurrentRequests: concurrentRequest,
 	}
 }
 
@@ -167,14 +167,14 @@ func getAllPaginated[T any](r *Requester, path RoutePath, startDate *time.Time) 
 		return response.Data, nil
 	}
 
-	log.Debug().Int("concurrent_request", MaxConcurrentRequests).Str("path", string(path)).Msg("iniciando requisições em paralelo")
+	log.Debug().Int("concurrent_request", r.concurrentRequests).Str("path", string(path)).Msg("iniciando requisições em paralelo")
 
 	items := response.Data
 	wg := &sync.WaitGroup{}
 	req := make(chan requestData)
-	res := make(chan []T, MaxConcurrentRequests)
+	res := make(chan []T, r.concurrentRequests)
 
-	for w := 0; w < MaxConcurrentRequests; w++ {
+	for w := 0; w < r.concurrentRequests; w++ {
 		go requestHandler(wg, res, req)
 	}
 

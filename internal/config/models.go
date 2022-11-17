@@ -68,7 +68,8 @@ type JetimobCfg struct {
 }
 
 type CmdCfg struct {
-	TenantId       string
-	IgnoreLastSync bool
-	MaxPages       int
+	TenantId           string
+	IgnoreLastSync     bool
+	MaxPages           int
+	ConcurrentRequests int
 }

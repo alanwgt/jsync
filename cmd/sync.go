@@ -72,5 +72,6 @@ func init() {
 	rootCmd.AddCommand(syncCmd)
 
 	syncCmd.PersistentFlags().IntVarP(&maxPages, "max-pages", "m", math.MaxInt, "número máximo de páginas requisitadas por recurso (útil para testes)")
+	syncCmd.PersistentFlags().IntVar(&concurrentRequests, "concurrent-requests", 5, "máximo de requisições em paralelo (máximo 5)")
 	syncCmd.PersistentFlags().BoolVarP(&ignoreLastSync, "ignore-last-sync", "i", false, "ignora a data da última sincronização, forçando a atualização de todos os dados")
 }

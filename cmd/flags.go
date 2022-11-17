@@ -33,3 +33,4 @@ var verbose bool
 var ignoreLastSync bool
 var tenantId string
 var maxPages int
+var concurrentRequests int

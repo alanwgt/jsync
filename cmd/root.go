@@ -149,10 +149,17 @@ func initConfig() {
 	cobra.CheckErr(err)
 	cfg = &config.JetimobCfg{}
 	cobra.CheckErr(viper.Unmarshal(cfg))
+
+	if concurrentRequests > 5 {
+		log.Warn().Int("requested", concurrentRequests).Msg("é permitido realizar no máximo 5 requisições em paralelo, sobrescrevendo valor para 5")
+		concurrentRequests = 5
+	}
+
 	cfg.CmdCfg = config.CmdCfg{
-		TenantId:       tenantId,
-		IgnoreLastSync: ignoreLastSync,
-		MaxPages:       maxPages,
+		TenantId:           tenantId,
+		IgnoreLastSync:     ignoreLastSync,
+		MaxPages:           maxPages,
+		ConcurrentRequests: concurrentRequests,
 	}
 
 	var lvl zerolog.Level
