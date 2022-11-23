@@ -30,6 +30,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/doug-martin/goqu/v9/exp"
+	"gopkg.in/guregu/null.v4"
 	"strings"
 	"time"
 )
@@ -100,4 +101,25 @@ func (jt *JTime) UnmarshalJSON(data []byte) (err error) {
 
 func (jt JTime) Value() (driver.Value, error) {
 	return json.Marshal(jt.Time)
+}
+
+type NullEmptyString null.String
+
+func (ns *NullEmptyString) UnmarshalJSON(data []byte) (err error) {
+	var s string
+	if err = json.Unmarshal(data, &s); err != nil {
+		return err
+	}
+
+	if len(strings.TrimSpace(s)) == 0 {
+		*ns = (NullEmptyString)(null.NewString("", false))
+		return nil
+	}
+
+	*ns = (NullEmptyString)(null.NewString(s, true))
+	return nil
+}
+
+func (ns NullEmptyString) Value() (driver.Value, error) {
+	return ns.NullString.Value()
 }
