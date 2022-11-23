@@ -42,6 +42,7 @@ import (
 	"time"
 )
 
+type BeforeInsertCallback func(map[any]any) map[any]any
 type JSync struct {
 	config        *config.JetimobCfg
 	requester     *http.Requester
@@ -141,7 +142,7 @@ func (j JSync) GetTenants() []config.TenantMapping {
 	return j.config.TenantMapping
 }
 
-func sync[T model.Model](tx *sql.Tx, j JSync, values []T, colMap map[string]any, table string) error {
+func sync[T model.Model](tx *sql.Tx, j JSync, values []T, colMap map[string]any, table string, beforeInsert BeforeInsertCallback) error {
 	l := j.L.With().Str("table", table).Logger()
 	l.Debug().Msg("iniciando sincronização de dados")
 
@@ -187,6 +188,11 @@ func sync[T model.Model](tx *sql.Tx, j JSync, values []T, colMap map[string]any,
 		}
 
 		pks[vi] = v.Identifier()
+
+		if beforeInsert != nil {
+			m = beforeInsert(m)
+		}
+
 		inserts = append(inserts, m)
 	}
 
@@ -312,13 +318,13 @@ func (j JSync) SyncAll() error {
 	})
 }
 
-func syncSingle[T model.Model](tx *sql.Tx, j JSync, vs []T, colMap map[string]any, table string) error {
+func syncSingle[T model.Model](tx *sql.Tx, j JSync, vs []T, colMap map[string]any, table string, beforeInsert BeforeInsertCallback) error {
 	if tx != nil {
-		return sync(tx, j, vs, colMap, table)
+		return sync(tx, j, vs, colMap, table, beforeInsert)
 	}
 
 	return j.Db().ExecInTx(func(tx *sql.Tx) error {
-		return sync(tx, j, vs, colMap, table)
+		return sync(tx, j, vs, colMap, table, beforeInsert)
 	})
 }
 
@@ -338,7 +344,7 @@ func (j JSync) SyncProperties(tx *sql.Tx) error {
 		return err
 	}
 
-	if err = syncSingle(tx, j, cs, j.config.Mappings.Properties, j.GetPropertiesTable()); err != nil {
+	if err = syncSingle(tx, j, cs, j.config.Mappings.Properties, j.GetPropertiesTable(), j.remapPropertyRow); err != nil {
 		return err
 	}
 
@@ -360,7 +366,7 @@ func (j JSync) SyncBrokers(tx *sql.Tx) error {
 		return err
 	}
 
-	return syncSingle(tx, j, bs, j.config.Mappings.Brokers, j.GetBrokersTable())
+	return syncSingle(tx, j, bs, j.config.Mappings.Brokers, j.GetBrokersTable(), nil)
 }
 
 func (j JSync) SyncBanners(tx *sql.Tx) error {
@@ -370,7 +376,7 @@ func (j JSync) SyncBanners(tx *sql.Tx) error {
 		return err
 	}
 
-	return syncSingle(tx, j, vs, j.config.Mappings.Banners, j.GetBannersTable())
+	return syncSingle(tx, j, vs, j.config.Mappings.Banners, j.GetBannersTable(), nil)
 }
 
 func (j JSync) SyncCondominiums(tx *sql.Tx) error {
@@ -380,7 +386,7 @@ func (j JSync) SyncCondominiums(tx *sql.Tx) error {
 		return err
 	}
 
-	e := syncSingle(tx, j, cs, j.config.Mappings.Condominiums, j.GetCondominiumsTable())
+	e := syncSingle(tx, j, cs, j.config.Mappings.Condominiums, j.GetCondominiumsTable(), nil)
 	return e
 }
 

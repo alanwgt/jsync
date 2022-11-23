@@ -193,3 +193,7 @@ mappings:
     valor_venda_visivel: show_sale_value
     videos: videos
   properties_table: properties
+  contracts:
+    Compra: venda
+    Locação: aluguel
+    Temporada: temporada

@@ -46,14 +46,15 @@ type TenantMapping struct {
 }
 
 type Mappings struct {
-	CondominiumsTable *string        `mapstructure:"condominiums_table"`
-	PropertiesTable   *string        `mapstructure:"properties_table"`
-	BrokersTable      *string        `mapstructure:"brokers_table"`
-	BannersTable      *string        `mapstructure:"banners_table"`
-	Condominiums      map[string]any `mapstructure:"condominiums"`
-	Properties        map[string]any `mapstructure:"properties"`
-	Brokers           map[string]any `mapstructure:"brokers"`
-	Banners           map[string]any `mapstructure:"banners"`
+	CondominiumsTable *string           `mapstructure:"condominiums_table"`
+	PropertiesTable   *string           `mapstructure:"properties_table"`
+	BrokersTable      *string           `mapstructure:"brokers_table"`
+	BannersTable      *string           `mapstructure:"banners_table"`
+	Condominiums      map[string]any    `mapstructure:"condominiums"`
+	Properties        map[string]any    `mapstructure:"properties"`
+	Brokers           map[string]any    `mapstructure:"brokers"`
+	Banners           map[string]any    `mapstructure:"banners"`
+	Contracts         map[string]string `mapstructure:"contracts"`
 }
 
 type JetimobCfg struct {
