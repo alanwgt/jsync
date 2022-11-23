@@ -110,7 +110,7 @@ type Property struct {
 	Latitude                   null.Float          `json:"latitude"`
 	Longitude                  null.Float          `json:"longitude"`
 	OccupancyStatus            string              `json:"situacao"`
-	Featured                   string              `json:"destaque"`
+	Featured                   featuredStr         `json:"destaque"`
 	FeatureUntil               null.Time           `json:"destaque_fim"`
 	CondominiumType            null.String         `json:"condominio_tipo"`
 	CondominiumName            null.String         `json:"condominio_nome"`
@@ -188,4 +188,16 @@ func (sc SeasonCalendarArray) Value() (driver.Value, error) {
 
 func (p Property) Identifier() int {
 	return p.Id
+}
+
+type featuredStr bool
+
+func (fs *featuredStr) UnmarshalJSON(data []byte) error {
+	var s string
+	if err := j.Unmarshal(data, &s); err != nil {
+		return err
+	}
+
+	*fs = s == "Destaque"
+	return nil
 }

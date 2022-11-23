@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS properties
   latitude                    NUMERIC        NULL,
   longitude                   NUMERIC        NULL,
   occupancy_status            TEXT           NOT NULL,
-  featured                    TEXT           NOT NULL,
+  featured                    BOOL           NOT NULL,
   feature_until               TIMESTAMPTZ(3) NULL,
   condominium_type            TEXT           NULL,
   condominium_name            TEXT           NULL,
