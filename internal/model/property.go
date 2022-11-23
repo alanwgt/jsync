@@ -36,7 +36,7 @@ import (
 type Rural struct {
 	Activities   json.CommaStrSlice `json:"atividade_rural"`
 	Headquarters null.Int           `json:"rural_sedes"`
-	ArableArea   null.String        `json:"rural_area_aravel"`
+	ArableArea   null.Float         `json:"rural_area_aravel"`
 }
 
 type SeasonCalendarArray []SeasonCalendar
@@ -97,7 +97,7 @@ type Property struct {
 	SeasonCalendar             SeasonCalendarArray `json:"calendario_temporada"`
 	RuralActivities            json.CommaStrSlice  `json:"rural.atividade_rural"`
 	RuralHeadquarters          null.Int            `json:"rural.rural_sedes"`
-	ArableArea                 null.String         `json:"rural.rural_area_aravel"`
+	ArableArea                 null.Float          `json:"rural.rural_area_aravel"`
 	AllowedGuests              null.Int            `json:"numero_pessoas"`
 	MetaTitle                  string              `json:"meta_title"`
 	MetaDescription            string              `json:"meta_description"`

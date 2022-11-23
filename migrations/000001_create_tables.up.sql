@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS properties
   season_calendar             JSONB          NOT NULL,
   rural_activities            TEXT[]         NOT NULL,
   rural_headquarters          INT            NULL,
-  arable_area                 TEXT           NULL,
+  arable_area                 NUMERIC(30, 2) NULL,
   allowed_guests              INT            NULL,
   meta_title                  TEXT           NOT NULL,
   meta_description            TEXT           NOT NULL,
