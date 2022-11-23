@@ -175,7 +175,8 @@ func sync[T model.Model](tx *sql.Tx, j JSync, values []T, colMap map[string]any,
 
 			remappedCol, ok := colMap[col]
 			if !ok {
-				return errors.New(fmt.Sprintf(`configuração de mapeamento para a coluna "%s" da tabela "%s" não encontrada`, col, table))
+				l.Info().Str("column", col).Msg("remapeamento não especificado para coluna, pulando")
+				continue
 			}
 
 			m[remappedCol] = reflect.ValueOf(v).FieldByName(colName.Name()).Interface()
