@@ -48,7 +48,7 @@ type Condominium struct {
 	GroundLevelingPercentage null.Int              `json:"terraplanagem"`
 	Latitude                 float64               `json:"latitude"`
 	Longitude                float64               `json:"longitude"`
-	Notes                    string                `json:"observacoes"`
+	Notes                    json.NullEmptyString  `json:"observacoes"`
 	IncorporationRecord      null.String           `json:"registro_incorporacao"`
 	JetimobNeighborhoodId    int                   `json:"id_bairro"`
 	JetimobCityId            int                   `json:"id_cidade"`
@@ -68,7 +68,7 @@ type Condominium struct {
 	ArchitectName            null.String           `json:"projeto_arquitetonico"`
 	LandscaperName           null.String           `json:"projeto_paisagismo"`
 	DecoratorName            null.String           `json:"projeto_decoracao"`
-	CoverImage               string                `json:"logotipo"`
+	CoverImage               json.NullEmptyString  `json:"logotipo"`
 	AvailableProperties      int                   `json:"total_imoveis_disponiveis"`
 	Infrastructures          json.CommaStrSlice    `json:"infraestruturas"`
 	Labels                   json.CommaStrSlice    `json:"etiquetas"`
