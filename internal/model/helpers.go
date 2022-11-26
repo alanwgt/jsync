@@ -29,8 +29,11 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"github.com/alanwgt/jsync/internal/encoding"
+	json2 "github.com/alanwgt/jsync/internal/json"
 	"gopkg.in/guregu/null.v4"
 )
+
+// os tipos `[...]Mapped[...]` são utilizados apenas para fazer o remapeamento de nomes do objeto JSON para o banco local
 
 type Model interface {
 	Identifier() int
@@ -60,10 +63,21 @@ func (m Media) Value() (driver.Value, error) {
 	return json.Marshal(m)
 }
 
-type MediaArray []Media
+type CondominiumMedia struct {
+	Url   string      `json:"link"`
+	Title null.String `json:"titulo"`
+}
 
-func (ma MediaArray) Value() (driver.Value, error) {
-	return encoding.JsonbArray(ma)
+type CondominiumMappedMedia struct {
+	Url   string      `json:"url"`
+	Title null.String `json:"title"`
+}
+
+func (cm CondominiumMedia) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&CondominiumMappedMedia{
+		Url:   cm.Url,
+		Title: cm.Title,
+	})
 }
 
 type Video struct {
@@ -76,10 +90,31 @@ type MappedVideo struct {
 	Title null.String `json:"title"`
 }
 
+type CondominiumVideo struct {
+	Url         string                `json:"href"`
+	Title       null.String           `json:"title"`
+	Description json2.NullEmptyString `json:"description"`
+}
+
+type MappedCondominiumVideo struct {
+	MappedVideo
+	Description null.String `json:"description"`
+}
+
 func (v Video) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&MappedVideo{
 		Url:   v.Url,
 		Title: v.Title,
+	})
+}
+
+func (cv CondominiumVideo) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&MappedCondominiumVideo{
+		MappedVideo: MappedVideo{
+			Url:   cv.Url,
+			Title: cv.Title,
+		},
+		Description: (null.String)(cv.Description),
 	})
 }
 
@@ -91,4 +126,22 @@ type VideoArray []Video
 
 func (v VideoArray) Value() (driver.Value, error) {
 	return encoding.JsonbArray(v)
+}
+
+type MediaArray []Media
+
+func (ma MediaArray) Value() (driver.Value, error) {
+	return encoding.JsonbArray(ma)
+}
+
+type CondominiumVideoArray []CondominiumVideo
+
+func (cv CondominiumVideoArray) Value() (driver.Value, error) {
+	return encoding.JsonbArray(cv)
+}
+
+type CondominiumMediaArray []CondominiumMedia
+
+func (cma CondominiumMediaArray) Value() (driver.Value, error) {
+	return encoding.JsonbArray(cma)
 }
