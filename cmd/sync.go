@@ -37,7 +37,7 @@ var syncCmd = &cobra.Command{
 	Aliases: []string{"s"},
 	Short:   "Sincroniza recursos da jetimob com o banco de dados local",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		if !ignoreDbLock && cfg.TruncateAll && cfg.LastSync != nil && !ignoreLastSync {
+		if !ignoreDbLock && truncate && cfg.LastSync != nil && !ignoreLastSync {
 			return errors.New(`se as tabelas forem truncadas e houver uma data de sincronização anterior, dados serão perdidos!
 Remova a opção "truncate", ou utilize a flag --ignore-last-sync para buscar todos os imóveis ignorando a data de sincronização`)
 		}
@@ -74,4 +74,5 @@ func init() {
 	syncCmd.PersistentFlags().IntVarP(&maxPages, "max-pages", "m", math.MaxInt, "número máximo de páginas requisitadas por recurso (útil para testes)")
 	syncCmd.PersistentFlags().IntVar(&concurrentRequests, "concurrent-requests", 5, "máximo de requisições em paralelo (máximo 5)")
 	syncCmd.PersistentFlags().BoolVarP(&ignoreLastSync, "ignore-last-sync", "i", false, "ignora a data da última sincronização, forçando a atualização de todos os dados")
+	syncCmd.PersistentFlags().BoolVar(&truncate, "truncate", false, "trunca a(s) tabela(s) utilizada(s) durante a sincronização")
 }

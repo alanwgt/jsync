@@ -196,7 +196,7 @@ func sync[T model.Model](tx *sql.Tx, j JSync, values []T, colMap map[string]any,
 		inserts = append(inserts, m)
 	}
 
-	if j.config.TruncateAll {
+	if j.config.CmdCfg.Truncate {
 		l.Warn().Bool("truncate", true).Msg("truncando tabela")
 		exp := goqu.Delete(table)
 		if j.multiTenant {

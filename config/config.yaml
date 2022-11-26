@@ -1,5 +1,4 @@
 webservice_key:
-truncate_all: false
 last_sync:
 #tenant_column:
 #tenant_mapping:

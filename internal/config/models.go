@@ -63,7 +63,6 @@ type JetimobCfg struct {
 	LastSync                  *time.Time      `mapstructure:"last_sync"` // última vez que houve uma sincronização com a Jetimob
 	TenantDiscriminatorColumn *string         `mapstructure:"tenant_column"`
 	TenantMapping             []TenantMapping `mapstructure:"tenant_mapping"`
-	TruncateAll               bool            `mapstructure:"truncate_all"`
 	Mappings                  Mappings        `mapstructure:"mappings"`
 	CmdCfg                    CmdCfg
 }
@@ -71,6 +70,7 @@ type JetimobCfg struct {
 type CmdCfg struct {
 	TenantId           string
 	IgnoreLastSync     bool
+	Truncate           bool
 	MaxPages           int
 	ConcurrentRequests int
 }

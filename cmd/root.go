@@ -160,6 +160,7 @@ func initConfig() {
 		IgnoreLastSync:     ignoreLastSync,
 		MaxPages:           maxPages,
 		ConcurrentRequests: concurrentRequests,
+		Truncate:           truncate,
 	}
 
 	var lvl zerolog.Level
