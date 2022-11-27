@@ -249,7 +249,7 @@ func sync[T model.Model](tx *sql.Tx, j JSync, values []T, colMap map[string]any,
 	if err != nil {
 		l.Error().Err(err).Msg("falha ao inserir dados no banco")
 	} else {
-		l.Info().Msg("dados sincronizados")
+		l.Info().Int("rows", len(inserts)).Str("table", table).Msg("dados sincronizados")
 	}
 
 	return err

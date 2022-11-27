@@ -133,10 +133,7 @@ func mappedGet[T any](r *Requester, path RoutePath, page int, startDate *time.Ti
 	return mappedResponse, nil
 }
 
-func requestHandler[T any](wg *sync.WaitGroup, res chan<- []T, rds <-chan requestData) {
-	wg.Add(1)
-	defer wg.Done()
-
+func requestHandler[T any](res chan<- []T, rds <-chan requestData) {
 	for rd := range rds {
 		r, err := mappedGet[model.PaginatedResponse[[]T]](rd.requester, rd.path, rd.page, rd.startDate)
 
@@ -173,18 +170,25 @@ func getAllPaginated[T any](r *Requester, path RoutePath, startDate *time.Time) 
 	wg := &sync.WaitGroup{}
 	req := make(chan requestData)
 	res := make(chan []T, r.concurrentRequests)
+	maxConcurrentRequests := r.concurrentRequests
 
-	for w := 0; w < r.concurrentRequests; w++ {
-		go requestHandler(wg, res, req)
+	if maxPages < maxConcurrentRequests {
+		maxConcurrentRequests = maxPages
 	}
 
-	go func(res chan []T) {
+	for w := 0; w < maxConcurrentRequests; w++ {
+		go requestHandler(res, req)
+	}
+
+	go func(res chan []T, wg *sync.WaitGroup) {
 		for r := range res {
 			items = append(items, r...)
+			wg.Done()
 		}
-	}(res)
+	}(res, wg)
 
 	for p := 2; p <= maxPages; p++ {
+		wg.Add(1)
 		req <- requestData{
 			requester: r,
 			path:      path,
