@@ -27,6 +27,8 @@ package cmd
 
 import (
 	"errors"
+	"github.com/alanwgt/jsync/internal/shell"
+	"github.com/alanwgt/jsync/log"
 	"github.com/spf13/cobra"
 	"math"
 )
@@ -64,6 +66,19 @@ Remova a opção "truncate", ou utilize a flag --ignore-last-sync para buscar to
 			}
 		}
 
+		if preHook != "" {
+			log.Debug().Str("pre-hook", preHook).Msg("executando pre-hook")
+			return shell.Exec(preHook)
+		}
+
+		return nil
+	},
+	PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
+		if postHook != "" {
+			log.Debug().Str("post-hook", postHook).Msg("executando post-hook")
+			return shell.Exec(postHook)
+		}
+
 		return nil
 	},
 }
@@ -75,4 +90,6 @@ func init() {
 	syncCmd.PersistentFlags().IntVar(&concurrentRequests, "concurrent-requests", 5, "máximo de requisições em paralelo (máximo 5)")
 	syncCmd.PersistentFlags().BoolVarP(&ignoreLastSync, "ignore-last-sync", "i", false, "ignora a data da última sincronização, forçando a atualização de todos os dados")
 	syncCmd.PersistentFlags().BoolVar(&truncate, "truncate", false, "trunca a(s) tabela(s) utilizada(s) durante a sincronização")
+	syncCmd.PersistentFlags().StringVar(&preHook, "pre-hook", "", "comando para ser executado no shell antes de iniciar a sincronização")
+	syncCmd.PersistentFlags().StringVar(&postHook, "post-hook", "", "comando para ser executado no shell após a sincronização bem sucedida")
 }

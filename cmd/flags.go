@@ -35,3 +35,5 @@ var tenantId string
 var maxPages int
 var concurrentRequests int
 var truncate bool
+var preHook string
+var postHook string
